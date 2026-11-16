@@ -1,57 +1,73 @@
 # Gym Business Intelligence & Predictive Analytics System
 
-An end-to-end data-driven solution designed to help gym businesses monitor operations, analyze performance, automate weekly reporting, and identify members at risk of inactivity using machine learning.
+An end-to-end, data-driven solution designed to help gym businesses monitor operations, analyze performance, automate weekly reporting, and identify members at risk of inactivity using machine learning.
 
-The system integrates **Python, PostgreSQL, ETL pipelines, SQL analytics, Streamlit dashboards, automated Excel/PDF reporting, and predictive analytics** into a unified business intelligence solution.
+The system brings together **Python, synthetic business-data generation, PostgreSQL, ETL pipelines, SQL analytics, Streamlit dashboards, automated Excel/PDF reporting, and predictive analytics** in one business intelligence workflow.
 
 ---
 
 ## Project Overview
 
-Managing gym operations involves handling membership records, payments, attendance, and customer activity. Analyzing this information manually can make it difficult for gym owners to identify business trends and take timely decisions.
+Managing gym operations involves handling membership records, payments, attendance, leads, and customer activity. Analyzing this information manually can make it difficult for gym owners to identify business trends and take timely decisions.
 
-This project addresses these challenges by developing a centralized business intelligence system that transforms raw operational data into meaningful insights.
+This project addresses these challenges by developing a centralized business intelligence system that transforms operational data into meaningful insights.
 
-The system processes data through automated ETL pipelines, stores structured information in PostgreSQL, performs SQL-based business analytics, and presents insights through an interactive Streamlit dashboard.
+A key part of the project is **synthetic gym-business data generation**. Since a meaningful business intelligence and machine learning workflow requires a sufficiently large and varied dataset, Python scripts are used to generate structured sample records for core gym operations. The project also generates deliberately messy data to exercise and validate the data-cleaning and quality-checking workflow.
 
-It also incorporates machine learning to identify members who may be at risk of inactivity and provides automated weekly business reports in Excel and PDF formats.
+The generated data is processed through ETL pipelines, stored in PostgreSQL, analyzed using SQL, and presented through an interactive Streamlit dashboard. The system also incorporates machine learning to identify members who may be at risk of inactivity and generates weekly business reports in Excel and PDF formats.
+
+> **Data note:** The operational datasets used for development and demonstration are synthetically generated. They are not presented as real customer or business records.
 
 ## Key Features
 
-### 1. Database Management
+### 1. Synthetic Gym Business Data Generation
+
+- Python-based generation of synthetic operational datasets to support development, testing, analytics, and machine learning.
+- Generation scripts for key gym-business data, including attendance, leads, memberships, payments, and follow-ups.
+- Generation of deliberately messy datasets to test data-cleaning and validation processes.
+- Dataset validation scripts to check generated data and messy-data handling.
+- Provides a larger and more varied data foundation for demonstrating business intelligence workflows without relying on real customer records.
+
+### 2. Database Management
+
 - PostgreSQL-based relational database.
 - Structured storage of gym operational data.
 - Database connectivity using SQLAlchemy and Psycopg2.
 - Organized and reusable database operations.
 
-### 2. ETL Pipeline
+### 3. ETL Pipeline
+
 - Automated data extraction using Python.
 - Data cleaning and transformation using Pandas and NumPy.
 - Data validation and quality checks.
 - Loading processed data into PostgreSQL.
-- Structured data processing workflow.
+- Structured data-processing workflow.
 
-### 3. Business Analytics
+### 4. Business Analytics
+
 - SQL-based business performance analysis.
 - Membership and revenue analysis.
 - Operational performance monitoring.
 - Data-driven business insights.
 
-### 4. Interactive Business Intelligence Dashboard
+### 5. Interactive Business Intelligence Dashboard
+
 - Developed using Streamlit.
 - Interactive visualizations using Plotly.
 - Key Performance Indicator (KPI) monitoring.
 - Monthly revenue analysis.
 - Lead status and business performance visualization.
 
-### 5. Automated Weekly Business Reporting
+### 6. Automated Weekly Business Reporting
+
 - Weekly report generation.
 - Excel report generation using OpenPyXL and XlsxWriter.
 - PDF report generation using ReportLab.
 - Business performance summaries.
 - Weekly report selection and review.
 
-### 6. Machine Learning – Member Inactivity Prediction
+### 7. Machine Learning – Member Inactivity Prediction
+
 - Machine learning-based inactivity prediction.
 - Data preprocessing and feature preparation.
 - Model development using Scikit-learn.
@@ -66,6 +82,7 @@ It also incorporates machine learning to identify members who may be at risk of 
 |---|---|
 | Programming Language | Python |
 | Database | PostgreSQL |
+| Data Generation | Python-based synthetic data generation |
 | Data Processing | Pandas, NumPy |
 | ETL | Python |
 | Database Connectivity | SQLAlchemy, Psycopg2 |
@@ -83,29 +100,36 @@ It also incorporates machine learning to identify members who may be at risk of 
 ## System Architecture
 
 ```text
-             Raw Operational Data
-                      |
-                      v
-              Python ETL Pipeline
-                      |
-           Extract | Transform
-                      |
-               Data Validation
-                      |
-                      v
-                PostgreSQL
-                      |
-            SQL Business Analytics
-                      |
-          +-----------+-----------+
-          |           |           |
-          v           v           v
-       Streamlit     Machine     Weekly
-       Dashboard     Learning    Reporting
-          |           |           |
-          v           v           v
-       Business    Inactivity   Excel / PDF
-       Insights    Prediction   Reports
+             Synthetic Data Generation
+                       |
+          +------------+-------------+
+          |                          |
+          v                          v
+   Structured Data              Messy Data
+          |                          |
+          +------------+-------------+
+                       |
+                       v
+               Python ETL Pipeline
+                       |
+              Extract | Transform
+                       |
+                Data Validation
+                       |
+                       v
+                  PostgreSQL
+                       |
+             SQL Business Analytics
+                       |
+          +------------+-------------+
+          |            |              |
+          v            v              v
+      Streamlit     Machine         Weekly
+      Dashboard     Learning       Reporting
+          |            |              |
+          v            v              v
+      Business     Inactivity      Excel / PDF
+      Insights     Prediction       Reports
 ```
 
 ---
@@ -129,6 +153,15 @@ gym-business-intelligence-system/
 │   ├── dashboard/
 │   ├── data_cleaning/
 │   ├── data_generation/
+│   │   ├── generate_data.py
+│   │   ├── generate_attendance.py
+│   │   ├── generate_followups.py
+│   │   ├── generate_leads.py
+│   │   ├── generate_memberships.py
+│   │   ├── generate_messy_data.py
+│   │   ├── generate_payments.py
+│   │   ├── validate_dataset.py
+│   │   └── validate_messy_data.py
 │   ├── database/
 │   ├── etl/
 │   └── reporting/
@@ -179,8 +212,6 @@ cd gym-business-intelligence-system
 
 ## Step 2: Create a Python Virtual Environment
 
-Create a virtual environment:
-
 ```bash
 python -m venv .venv
 ```
@@ -199,17 +230,15 @@ source .venv/bin/activate
 
 ## Step 3: Install Python Dependencies
 
-Install the required packages:
-
 ```bash
 python -m pip install --upgrade pip
 pip install -r requirements.txt
 ```
 
-## Step 4: Set Up PostgreSQL
+## Step 4: Configure PostgreSQL
 
 1. Install PostgreSQL using the official installer.
-2. During installation, configure your PostgreSQL username and password.
+2. Configure your PostgreSQL username and password.
 3. Open pgAdmin or the PostgreSQL command-line interface.
 4. Create a new database for the project.
 
@@ -241,17 +270,33 @@ DB_PASSWORD=your_local_password
 
 Never upload your `.env` file or actual database credentials to GitHub.
 
-## Step 6: Initialize the Database
+## Step 6: Generate the Synthetic Datasets
 
-Execute the project's database initialization or schema creation scripts.
+The project includes Python scripts in `src/data_generation/` for generating synthetic gym-business data.
+
+These scripts cover operational areas such as:
+
+- Attendance
+- Leads
+- Memberships
+- Payments
+- Follow-ups
+
+The project also includes scripts for generating deliberately messy data and validating both the generated dataset and messy-data handling.
+
+Review the scripts in `src/data_generation/` and execute the relevant generation and validation scripts using the project environment. Use the generated datasets as inputs for the ETL workflow.
+
+## Step 7: Initialize the Database
+
+Execute the project's database initialization or schema-creation scripts.
 
 Ensure the required tables and relationships are created before running the ETL pipeline.
 
 Refer to the `src/database/` directory for the database implementation.
 
-## Step 7: Run the ETL Pipeline
+## Step 8: Run the ETL Pipeline
 
-Execute the existing Python ETL entry point to:
+Execute the project's Python ETL entry point to:
 
 1. Extract source data.
 2. Clean and transform the data.
@@ -262,7 +307,7 @@ Refer to the `src/etl/` directory for the actual execution entry point.
 
 Verify that the expected records have been loaded into PostgreSQL.
 
-## Step 8: Launch the Streamlit Dashboard
+## Step 9: Launch the Streamlit Dashboard
 
 Run the dashboard entry-point script:
 
@@ -274,7 +319,7 @@ Replace the example path with the actual dashboard script location.
 
 The dashboard should open in your browser and display the available business intelligence metrics.
 
-## Step 9: Generate Weekly Business Reports
+## Step 10: Generate Weekly Business Reports
 
 Use the weekly reporting functionality to select and generate the required business performance report.
 
@@ -286,7 +331,7 @@ The reporting module supports:
 
 Refer to `src/reporting/` for the implementation.
 
-## Step 10: Explore Machine Learning Notebooks
+## Step 11: Explore Machine Learning Notebooks
 
 Open the Jupyter notebooks inside the `notebooks/` directory.
 
@@ -319,7 +364,7 @@ These are proposed enhancements and are not part of the current release.
 
 **Release Scope:** Gym Business Intelligence & Predictive Analytics
 
-The current version focuses on the implementation of the database, ETL pipelines, business analytics, interactive dashboards, automated weekly reporting, and machine learning-based inactivity prediction.
+The current version focuses on synthetic gym-business data generation, database management, ETL pipelines, business analytics, interactive dashboards, automated weekly reporting, and machine learning-based inactivity prediction.
 
 ---
 
@@ -331,4 +376,4 @@ The current version focuses on the implementation of the database, ETL pipelines
 
 ## License
 
-See the repository's LICENSE file for licensing information.
+See the repository's `LICENSE` file for licensing information.
